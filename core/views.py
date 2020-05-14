@@ -1,5 +1,5 @@
-import os
 import json
+import os
 
 import requests
 from django.http import HttpResponseRedirect
@@ -29,7 +29,12 @@ def authorize(request):
     }
 
     response = requests.post(url, data=json.dumps(body), headers=headers)
+    token = response.json().get('access_token')
 
+    app_url = os.environ.get('APP_URL')
+    if not app_url:
+        app_url = 'http://localhost:8080/app'
 
-    return HttpResponseRedirect(redirect_to=os.environ.get('DB_NAME') or 'vinta_db')
-    # return Response({"success": True, "gh_data": response.json()}, status=200)
+    redirect_url = f'{app_url}?access_token={token}'
+
+    return HttpResponseRedirect(redirect_to=redirect_url)
