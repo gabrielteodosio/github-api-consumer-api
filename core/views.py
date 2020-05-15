@@ -114,8 +114,15 @@ def authorize(request):
     db_user = User.objects.filter(username=github_user_data.get('login'))
 
     if db_user.exists():
+        db_user.update(
+            access_token=token,
+            name=github_user_data.get('name'),
+            email=github_user_data.get('email'),
+            username=github_user_data.get('login'),
+            avatar_url=github_user_data.get('avatar_url')
+        )
+
         user = db_user.first()
-        user.access_token = token
     else:
         user = User.objects.create(
             access_token=token,
