@@ -141,6 +141,6 @@ def authorize(request):
     redirect_url = f'{app_url}'
 
     response = HttpResponseRedirect(redirect_to=redirect_url)
-    response.set_cookie('gh_access_token', token, secure=True)
+    response.set_cookie('gh_access_token', token)
 
     return response
