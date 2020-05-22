@@ -138,9 +138,6 @@ def authorize(request):
     if not app_url:
         app_url = 'http://localhost:8080/app'
 
-    redirect_url = f'{app_url}'
+    redirect_url = f'{app_url}?access_token={token}'
 
-    response = HttpResponseRedirect(redirect_to=redirect_url)
-    response.set_cookie('gh_access_token', token)
-
-    return response
+    return HttpResponseRedirect(redirect_to=redirect_url)
